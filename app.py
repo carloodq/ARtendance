@@ -3,7 +3,7 @@ import json
 import os
 import sqlite3
 from dotenv import dotenv_values
-
+from flask import render_template
 # Third party libraries
 from flask import Flask, redirect, request, url_for
 from flask_login import (
@@ -23,8 +23,8 @@ from user import User
 # Configuration
 config = dotenv_values(".env")
 
-GOOGLE_CLIENT_ID = config["GOOGLE_CLIENT_ID"]
-GOOGLE_CLIENT_SECRET = config["GOOGLE_CLIENT_SECRET"]
+GOOGLE_CLIENT_ID = "868588184946-klp2u5umbbmujhqp8pio7vfp28jtofoh.apps.googleusercontent.com" #config["GOOGLE_CLIENT_ID"]
+GOOGLE_CLIENT_SECRET = "zV5LssPwqjv7ksjnm6tbhdpW" #config["GOOGLE_CLIENT_SECRET"]
 GOOGLE_DISCOVERY_URL = (
     "https://accounts.google.com/.well-known/openid-configuration"
 )
