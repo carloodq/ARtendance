@@ -19,6 +19,7 @@ import requests
 # Internal imports
 from db import init_db_command
 from user import User
+from flask_sqlalchemy import SQLAlchemy
 
 # Configuration
 config = dotenv_values(".env")
@@ -32,6 +33,19 @@ GOOGLE_DISCOVERY_URL = (
 # Flask app setup
 app = Flask(__name__)
 app.secret_key = os.environ.get("SECRET_KEY") or os.urandom(24)
+
+
+# Adding the connection to the MySQL database
+SQLALCHEMY_DATABASE_URI = "mysql+mysqlconnector://{username}:{password}@{hostname}/{databasename}".format(
+    username="carloodq",
+    password="1996Stud",
+    hostname="carloodq.mysql.pythonanywhere-services.com",
+    databasename="carloodq$students",
+)
+app.config["SQLALCHEMY_DATABASE_URI"] = SQLALCHEMY_DATABASE_URI
+app.config["SQLALCHEMY_POOL_RECYCLE"] = 299
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+db = SQLAlchemy(app)
 
 # User session management setup
 # https://flask-login.readthedocs.io/en/latest
