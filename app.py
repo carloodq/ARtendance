@@ -47,6 +47,17 @@ app.config["SQLALCHEMY_POOL_RECYCLE"] = 299
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 db = SQLAlchemy(app)
 
+#setting up the attendances table
+class Comment(db.Model):
+
+    __tablename__ = "attendances"
+
+    id = db.Column(db.Integer, primary_key=True)
+    student_email = db.Column(db.String(4096), nullable=False)
+    student_position = db.Column(db.String(4096), nullable=False)
+
+
+
 # User session management setup
 # https://flask-login.readthedocs.io/en/latest
 login_manager = LoginManager()
