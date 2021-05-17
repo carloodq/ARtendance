@@ -17,30 +17,30 @@
 let markerVisible = { m0: false, m1: false };
   let measure = 'ya';
 
-//set cookie
-function getCookie(cname) {
-  var name = cname + "=";
-  var decodedCookie = decodeURIComponent(document.cookie);
-  var ca = decodedCookie.split(';');
-  for(var i = 0; i <ca.length; i++) {
-    var c = ca[i];
-    while (c.charAt(0) == ' ') {
-      c = c.substring(1);
-    }
-    if (c.indexOf(name) == 0) {
-      return c.substring(name.length, c.length);
-    }
-  }
-  return "";
-}
+// //set cookie
+// function getCookie(cname) {
+//   var name = cname + "=";
+//   var decodedCookie = decodeURIComponent(document.cookie);
+//   var ca = decodedCookie.split(';');
+//   for(var i = 0; i <ca.length; i++) {
+//     var c = ca[i];
+//     while (c.charAt(0) == ' ') {
+//       c = c.substring(1);
+//     }
+//     if (c.indexOf(name) == 0) {
+//       return c.substring(name.length, c.length);
+//     }
+//   }
+//   return "";
+// }
 
-function getInputValue() {
-        // Selecting the input element and get its value
-        let inputVal = document.getElementById("inputId").value;
-        // Displaying the value
-        //alert(inputVal);
-        document.cookie = "username="+inputVal;
-      }
+// function getInputValue() {
+//         // Selecting the input element and get its value
+//         let inputVal = document.getElementById("inputId").value;
+//         // Displaying the value
+//         //alert(inputVal);
+//         document.cookie = "username="+inputVal;
+//       }
 
 
 //inputVal = document.getElementById("inputId").value;
@@ -148,9 +148,11 @@ function startTime()
         sum_z += positions_z[i];
     }
     var avg_z = sum_z/positions_z.length;
-    final_res = avg_x+ ' ' + avg_y + ' ' + avg_z+ " " + getCookie("username")
+    final_res = avg_x+ ' ' + avg_y + ' ' + avg_z
     document.getElementById("notes2").innerHTML = final_res;
-    MyFunction(final_res);
+    //MyFunction(final_res);
+    document.getElementById("form-input").value = final_res;
+
   }
   counter++;
   document.getElementById("notes").innerHTML = measure_x + ' ' + measure_y + ' ' + measure_z ;
@@ -204,6 +206,12 @@ function startTime()
     </p>
     <div id = 'notes3' style="background-color:white">
     </div>
+
+<form action="{{ url_for('thanks') }}" method="post">
+    <input type="text" name="form-input"  id="form-input">
+    <button>Submit</button>
+<form>
+
 
   </div>
 

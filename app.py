@@ -102,6 +102,17 @@ def index():
         return '<a class="button" href="/login">Google Login</a>'
 
 
+# adding the thanks route
+@app.route("/thanks", methods=["POST"])
+def thanks():
+    student_position = request.form.get("form-input") # take the request the user made, access the form,
+                                    # and store the field called `name` in a Python variable also called `name`
+    student = Comment(student_email=current_user.email, student_position=student_position)
+    db.session.add(student)
+    db.session.commit()
+    return f"<p>Thanks, attendance submitted {current_user.email}</p>"
+
+
 @app.route("/login")
 def login():
     # Find out what URL to hit for Google login
@@ -116,6 +127,8 @@ def login():
         scope=["openid", "email", "profile"],
     )
     return redirect(request_uri)
+
+
 
 
 @app.route("/login/callback")
