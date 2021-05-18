@@ -21,6 +21,13 @@ from db import init_db_command
 from user import User
 from flask_sqlalchemy import SQLAlchemy
 
+# to viz in plotly
+import pandas as pd
+import json
+import plotly
+import plotly.express as px
+import plotly.graph_objects as go
+
 # Configuration
 config = dotenv_values(".env")
 
@@ -110,7 +117,41 @@ def thanks():
     student = Comment(student_email=current_user.email, student_position=student_position)
     db.session.add(student)
     db.session.commit()
-    return f"<p>Thanks, attendance submitted {current_user.email}</p>"
+    return f"<p>Thanks, attendance submitted {[Comment.query.get(x+1).student_position for x in range(Comment.query.count())]}</p>"
+
+
+# adding the prof route
+@app.route("/prof", methods=["POST", "GET"])
+def prof():
+
+    students = [Comment.query.get(x+1).student_email for x in range(Comment.query.count())]
+    positions = [Comment.query.get(x+1).student_position for x in range(Comment.query.count())]
+    df = pd.DataFrame({'Student':students,'Position':positions})
+    #pd.read_csv('https://raw.githubusercontent.com/plotly/datasets/master/2014_usa_states.csv')
+
+    fig = go.Figure(data=[go.Table(
+        header=dict(values=list(df.columns),
+                    fill_color='paleturquoise',
+                    align='left'),
+        cells=dict(values=[df.Student, df.Position],
+                   fill_color='lavender',
+                   align='left'))
+    ])
+
+    #fig.show()
+    #if post:
+        # query the class and return the respective details
+
+    #else:
+        # ask to select a class
+    #df = pd.DataFrame({
+    #  "Fruit": ["Apples", "Oranges", "Bananas", "Apples", "Oranges", "Bananas"],
+    #  "Amount": [4, 1, 2, 2, 4, 5],
+    #  "City": ["SF", "SF", "SF", "Montreal", "Montreal", "Montreal"]})
+
+    #fig = px.bar(df, x="Fruit", y="Amount", color="City",    barmode="group")
+    graphJSON = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
+    return render_template('notdash.html', graphJSON=graphJSON)
 
 
 @app.route("/login")
