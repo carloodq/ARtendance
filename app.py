@@ -147,17 +147,19 @@ def prof():
     df['positions_y'] = df['Position'].apply(lambda x: get_coords_y(x))
 
     df = df.dropna()
+    df_returned = df[['Student','Position']]
 
     fig = go.Figure(data=[go.Table(
-        header=dict(values=list(df.columns),
+        header=dict(values=list(df_returned.columns),
                     fill_color='paleturquoise',
                     align='left'),
-        cells=dict(values=[df.Student, df.Position, df.positions_x, df.positions_y],
+        cells=dict(values=[df_returned.Student, df_returned.Position],
                    fill_color='lavender',
                    align='left'))
     ])
+    fig.update_layout(title='Registered students')
 
-    data= pd.read_csv("https://raw.githubusercontent.com/plotly/datasets/master/2014_usa_states.csv")
+    #data= pd.read_csv("https://raw.githubusercontent.com/plotly/datasets/master/2014_usa_states.csv")
 
     fig_scatter = go.Figure(data=go.Scatter(x=df['positions_x'],
                                     y=df['positions_y'],
@@ -165,7 +167,7 @@ def prof():
                                     #marker_color=df['Population'], #Ican add it has time of exposure
                                     text=df['Student'])) # hover text goes here
 
-    #fig_scatter.update_layout(title='Population of USA States')
+    fig_scatter.update_layout(title='Students Position')
 
 
     #fig.show()
