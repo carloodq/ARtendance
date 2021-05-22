@@ -106,7 +106,7 @@ def index():
         #     )
         # )
     else:
-        return '<a class="button" href="/login">Google Login</a>'
+        return render_template("bootstrap.html") #'<a class="button" href="/login">Google Login</a>'
 
 
 # adding the thanks route
@@ -129,14 +129,44 @@ def prof():
     df = pd.DataFrame({'Student':students,'Position':positions})
     #pd.read_csv('https://raw.githubusercontent.com/plotly/datasets/master/2014_usa_states.csv')
 
+    def get_coords_x(x):
+        try:
+            coords = [float(i) for i in x.split(' ')]
+            return (coords[0]+10)/20*100
+        except:
+            return None
+
+    def get_coords_y(x):
+        try:
+            coords = [float(i) for i in x.split(' ')]
+            return coords[1]/10*100
+        except:
+            return None
+
+    df['positions_x'] = df['Position'].apply(lambda x: get_coords_x(x))
+    df['positions_y'] = df['Position'].apply(lambda x: get_coords_y(x))
+
+    df = df.dropna()
+
     fig = go.Figure(data=[go.Table(
         header=dict(values=list(df.columns),
                     fill_color='paleturquoise',
                     align='left'),
-        cells=dict(values=[df.Student, df.Position],
+        cells=dict(values=[df.Student, df.Position, df.positions_x, df.positions_y],
                    fill_color='lavender',
                    align='left'))
     ])
+
+    data= pd.read_csv("https://raw.githubusercontent.com/plotly/datasets/master/2014_usa_states.csv")
+
+    fig_scatter = go.Figure(data=go.Scatter(x=df['positions_x'],
+                                    y=df['positions_y'],
+                                    mode='markers',
+                                    #marker_color=df['Population'], #Ican add it has time of exposure
+                                    text=df['Student'])) # hover text goes here
+
+    #fig_scatter.update_layout(title='Population of USA States')
+
 
     #fig.show()
     #if post:
@@ -151,7 +181,8 @@ def prof():
 
     #fig = px.bar(df, x="Fruit", y="Amount", color="City",    barmode="group")
     graphJSON = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
-    return render_template('notdash.html', graphJSON=graphJSON)
+    scatter = json.dumps(fig_scatter, cls=plotly.utils.PlotlyJSONEncoder)
+    return render_template('notdash.html', graphJSON=graphJSON, scatter = scatter)
 
 
 @app.route("/login")

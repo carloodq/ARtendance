@@ -7,6 +7,8 @@
     <script src="https://aframe.io/releases/1.0.0/aframe.min.js"></script>
     <!-- we import arjs version without NFT but with marker + location based support -->
     <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
 
 <body style="margin: 0px; overflow: hidden;">
 <!--<script src="/client.js" defer></script>-->
@@ -128,7 +130,7 @@ var counter = 1;
 
 function startTime()
 {
-  if(counter == 10) {
+  if(counter == 15) {
     clearInterval(tt);
     //compute average x
     var sum_x = 0;
@@ -152,6 +154,7 @@ function startTime()
     document.getElementById("notes2").innerHTML = final_res;
     //MyFunction(final_res);
     document.getElementById("form-input").value = final_res;
+    document.getElementById('clickButton').click();
 
   }
   counter++;
@@ -191,30 +194,38 @@ function startTime()
 
 
   <div style = "position:absolute;top:10px; left:0px; z-index:1000;">
-          <button class="btn btn-primary" type="button" data-toggle="collapse" style="margin:5px"
+
+<div style="visibility:hidden">
+    <button class="btn btn-primary" type="button" data-toggle="collapse" style="margin:5px"
           data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample" id="get_results">
     Use
   </button>
           <!--<button class="btn btn-light" style="margin:5px"  onclick = "MyFunction('ya')">&#128077;</button>-->
+
     <input type="text" placeholder="Type " id="inputId">
     <button type="button" onclick="getInputValue();">Change name</button>
+
     <p id = 'notes' style="background-color:white">
       Hey
     </p>
         <p id = 'notes2' style="background-color:white">
       Hey
     </p>
+
     <div id = 'notes3' style="background-color:white">
     </div>
 
+</div>
 <form action="{{ url_for('thanks') }}" method="post">
     <input type="text" name="form-input"  id="form-input">
-    <button>Submit</button>
+    <button id = "clickButton" class="btn btn-primary">Submit</button>
 <form>
 
 
   </div>
 
+<!--bootstrap-->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
 
 </body>
 </html>

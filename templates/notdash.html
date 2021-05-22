@@ -1,12 +1,17 @@
 <!doctype html>
 <html>
  <body>
-  <h1>Hello Plotly (but not Dash)</h1>
+  <h1>Students registered</h1>
   <div id="chart" class="chart"></div>
+  <div id="chart2" class="chart2"></div>
 </body>
 <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 <script type="text/javascript">
   var graphs = {{graphJSON | safe}};
   Plotly.plot('chart',graphs,{});
+</script>
+<script type="text/javascript">
+  var scatter = {{scatter | safe}};
+  Plotly.plot('chart2',scatter,{});
 </script>
 </html>
