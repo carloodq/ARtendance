@@ -117,7 +117,7 @@ def thanks():
     student = Comment(student_email=current_user.email, student_position=student_position)
     db.session.add(student)
     db.session.commit()
-    return f"<p>Thanks, attendance submitted {[Comment.query.get(x+1).student_position for x in range(Comment.query.count())]}</p>"
+    return render_template("thanks.html", name = current_user.name)
 
 
 # adding the prof route

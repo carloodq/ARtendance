@@ -9,6 +9,14 @@
     <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+<style >
+#fixed {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  margin:5px;
+  }
+</style>
 
 <body style="margin: 0px; overflow: hidden;">
 <!--<script src="/client.js" defer></script>-->
@@ -130,7 +138,7 @@ var counter = 1;
 
 function startTime()
 {
-  if(counter == 15) {
+  if(counter == 10) {
     clearInterval(tt);
     //compute average x
     var sum_x = 0;
@@ -216,8 +224,10 @@ function startTime()
     </div>
 
 </div>
-<form action="{{ url_for('thanks') }}" method="post">
+
+<form id="fixed" action="{{ url_for('thanks') }}" method="post">
     <input type="text" name="form-input"  id="form-input">
+    <br>
     <button id = "clickButton" class="btn btn-primary">Submit</button>
 <form>
 
